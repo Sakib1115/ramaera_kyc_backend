@@ -1,0 +1,674 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type AllKycAgency {
+  agencyCode: String
+  name: String
+}
+
+type Auth {
+  """JWT access token"""
+  accessToken: JWT!
+
+  """JWT refresh token"""
+  refreshToken: JWT!
+  user: User!
+}
+
+input ChangePasswordInput {
+  newPassword: String!
+  oldpassword: String!
+}
+
+input ChangePasswordWithPrivateKeyInput {
+  newPassword: String!
+  pwId: String
+}
+
+input CreateDocumentInput {
+  title: String!
+  url: String!
+}
+
+input CreateDscInput {
+  """The Date At Which DSC Will Expire """
+  DSCSTATUS: DSCSTATUS!
+
+  """The Date At Which DSC Created  """
+  DscCreatedDate: String!
+
+  """The Date At Which DSC Will Expire """
+  DscExpiryDate: String!
+
+  """User Id """
+  userId: String!
+}
+
+input CreateKycAgencyCodeInput {
+  userId: String!
+}
+
+input CreateSalesPerson {
+  address: [JSONObject!]
+  agencyCode: String!
+  approvalStatus: STATUS
+  email: String!
+  extraInfo: [JSONObject!]
+  mobileNumber: String!
+  name: String!
+  type: TYPE!
+}
+
+input CreateShareholdingInput {
+  InvestmentType: String
+  allotedShare: Int
+  userId: String
+  userPWId: String!
+}
+
+enum DSCSTATUS {
+  NOT_RECEIVED
+  RECEIVED
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Document {
+  createdAt: DateTime!
+  id: String!
+  status: String!
+  title: String!
+  updatedAt: DateTime!
+  url: String!
+  user: User!
+}
+
+type DocumentModal {
+  amount: Int
+  createdAt: DateTime!
+  id: String!
+  status: String
+  title: String
+  updatedAt: DateTime!
+  url: String
+  user: User!
+  userId: String!
+  utrNo: String
+}
+
+type DscOutputDataField {
+  """Dsc Status"""
+  DSCStatus: DSCSTATUS
+
+  """The Date At Which DSC Created  """
+  DscCreatedDate: String!
+
+  """The Date At Which DSC Will Expire """
+  DscExpiryDate: String!
+
+  """User Id """
+  userId: String!
+}
+
+type EmptyModal {
+  message: String
+}
+
+"""
+The `JSONObject` scalar type represents JSON objects as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSONObject @specifiedBy(url: "http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf")
+
+"""
+A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
+"""
+scalar JWT
+
+"""User KYC Status"""
+enum KYC {
+  AGENT_APPROVED
+  APPROVED
+  NOT_INITIALIZED
+  ONGOING
+  REJECTED
+  SUBMITTED
+}
+
+type KYCAGENYCPAYMENT {
+  AdvanceKycApprovedUser: [User!]
+  BasicKycApprovedUser: [User!]
+  advanceAgraprojectDocument: [DocumentModal!]
+  advanceHajipurprojectDocument: [DocumentModal!]
+  agraProjectAmount: Int
+  basicAgraprojectDocument: [DocumentModal!]
+  basicHajipurprojectDocument: [DocumentModal!]
+  hajipurProjectAmount: Int
+  kycAmount: Int
+  selfAgencyAgraPaymentAmount: Int
+  selfAgencyHajipurPaymentAmount: Int
+  selfAgraInvestmentDocument: [DocumentModal!]
+  selfHajipurInvestmentDocument: [DocumentModal!]
+}
+
+type KYCHANDLER {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  handlerId: String
+  id: ID!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  updatedKycStatus: KYC
+  userId: String
+}
+
+type KYCREFERRAL {
+  """Agency COde"""
+  agencyCode: String!
+
+  """Transaction Created At """
+  createdAt: DateTime!
+
+  """Id of Transaction"""
+  id: Int!
+
+  """Transaction Updated At """
+  updatedAt: DateTime!
+
+  """Agency COde"""
+  userId: String!
+}
+
+type KycAgency {
+  agencyCode: String
+  createdAt: DateTime!
+  id: String!
+  name: String
+  rm_id: String
+  role: Role!
+  updatedAt: DateTime!
+  user: User!
+}
+
+type KycAgencyModel {
+  agencyCode: String
+  createdAt: DateTime
+  id: String!
+  updatedAt: DateTime
+}
+
+input LoginInput {
+  password: String!
+  pw_id: String!
+}
+
+enum Membership {
+  ADVANCE
+  BASIC
+}
+
+type Mutation {
+  TransactionToWallet(transactionToWallet: WalletTransactionInput!): Wallet!
+  UpdateLicenseDetails(data: UpdateLicenseDetailsInput!): User!
+  changePassword(data: ChangePasswordInput!): User!
+  createDocument(data: CreateDocumentInput!): Document!
+  createDsc(createDscInput: CreateDscInput!): DscOutputDataField!
+  createKycAgency(data: CreateKycAgencyCodeInput!): AllKycAgency!
+  createProjectEnrolled(projectData: projectDataInput!): ProjectEnrolled!
+  createSalesPerson(data: CreateSalesPerson!): SalesPersonOutPut!
+  createShareholding(data: CreateShareholdingInput!): Shareholding!
+  forgetPasswordWithPrivateKey(data: ChangePasswordWithPrivateKeyInput!): EmptyModal!
+  getSponserDetails(data: SponserDetails!): Sponser!
+  login(data: LoginInput!): Auth!
+  passwordresetRequest(data: PasswordRequestInput!): Auth!
+  refreshToken(token: JWT!): Token!
+  removeDsc(id: Int!): DscOutputDataField!
+  removeKycAgency(id: Int!): KycAgency!
+  removeProjectEnrolled(id: Int!): ProjectEnrolled!
+  removeSalesChannel(id: Int!): SalesChannel!
+  removeShareholding(id: Int!): Shareholding!
+  signup(data: SignupInput!): Auth!
+  updateDataByAdmin(data: UpdateUserInputByAdmin!): User!
+  updateDocument(data: UpdateDocumentsInput!): Document!
+  updateDocumentStatusByAdmin(data: UpdateDocumentStatusByAdmin!): Document!
+  updateMembership(data: UpdateUserMembershipAdmin!): User!
+  updateProjectEnrolled(updateProjectEnrolledInput: UpdateProjectEnrolledInput!): ProjectEnrolled!
+  updateSalesChannel(updateSalesChannelInput: UpdateSalesChannelInput!): SalesChannel!
+  updateShareholding(data: UpdateShareholdingInput!): Shareholding!
+  updateStatus(data: UpdateUserStatusAdmin!): User!
+  updateUser(data: UpdateUserInput!): User!
+  updateuserRole(data: UpdateUserRoleInput!): User!
+  upsertNominee(data: NomineeInput!): Nominee!
+  withdrawlRequest(data: WithdraWalletMoney!): withdrawlRequest!
+}
+
+type Nominee {
+  name: String!
+  relationship: String!
+}
+
+input NomineeInput {
+  id: String
+  name: String
+  relationship: String
+}
+
+type NomineeModel {
+  createdAt: DateTime!
+  id: String!
+  name: String!
+  relationship: String!
+  updatedAt: DateTime!
+}
+
+type PROJECTREFERRAL {
+  """Agency COde"""
+  agencyCode: String!
+
+  """Transaction Created At """
+  createdAt: DateTime!
+
+  """Document Id """
+  documentId: String!
+
+  """Id of Transaction"""
+  id: Int!
+
+  """Transaction Updated At """
+  updatedAt: DateTime!
+
+  """user Id """
+  userId: String!
+}
+
+enum PROJECT_PAYMENT {
+  AGRA
+  HAJIPUR
+}
+
+input PasswordRequestInput {
+  pw_id: String!
+}
+
+type ProjectEnrolled {
+  projects: [Projects!]
+  user: User
+
+  """Example field (placeholder)"""
+  userId: String
+  userName: String
+}
+
+type ProjectEnrolledForAllUser {
+  createdAt: DateTime!
+
+  """Project Name"""
+  projectName: String
+
+  """Project Status"""
+  projectStatus: String
+
+  """Project Name"""
+  totalInvestedAmountinProject: String
+  updatedAt: DateTime!
+}
+
+type Projects {
+  """Project Name"""
+  projectName: String
+
+  """Total amount Invested """
+  totalInvestedAmountinProject: String
+}
+
+type Query {
+  AgencyPayment(agencyCode: String!, month: Int!, year: Int!): KYCAGENYCPAYMENT!
+  AgencyWalletHistory(agencyCode: String!): [Wallet!]!
+  AllKycAgency: [KycAgency!]!
+  ChangeAmountOfRamaeraLegalInfoTech: User!
+  DeleteUser: User!
+  FeedProjectEnrolled: ProjectEnrolled!
+  GetAllKycAgencyUser(agencyCode: String!): [User!]!
+  GetFinalWalletBalanceOfAgency(agencyCode: String!): WalletBalance!
+  Report: [User!]!
+  TotalShareholders(skip: Int! = 0, take: Int! = 100): [Shareholding!]!
+  agencyWithdrawlRequest(agencyCode: String!): [withdrawlRequest!]!
+  allKycUser(input: SearchMembershipInput!, skip: Int! = 0, take: Int! = 100): [User!]!
+  allprojectEnrolleds: [ProjectEnrolled!]!
+  dsc(id: Int!): DscOutputDataField!
+  findAgency(AgencyCode: String!): KycAgency!
+  findreferralKycTransaction(userId: String!): KYCREFERRAL!
+  findreferralProjectTransaction(documentId: String!): KYCREFERRAL!
+  getAllKycHandler: [KYCHANDLER!]!
+  getAllKycReferral: [KYCREFERRAL!]!
+  getAllProjectReferral: [PROJECTREFERRAL!]!
+  getAllShareHoldersCount: ShareHolderCountDTO!
+  getAllUser(skip: Int! = 0, take: Int! = 5000): [User!]!
+  getAllUsersCount: UserCountDTO!
+  getDocumentDetails(id: String!): Document!
+  getProjectsPayment: projectPaymentDTO!
+  getUserDetails(id: String!): User!
+  hello(name: String!): String!
+  helloWorld: String!
+  kycAgency(userId: String!): KycAgency!
+  me: User!
+  myDocuments(userId: String!): [Document!]!
+  myNominee(userId: String!): Nominee!
+  pendingTasks(skip: Int! = 0, take: Int! = 3000): [Document!]!
+  projectEnrolled(id: String!): [Projects!]!
+  salesChannel: [SalesChannel!]!
+  salesPersonsInAAgency(agencyCode: String!): SalesChannel!
+  searchShareHolding(input: SearchInvestmentType!, skip: Int! = 0, take: Int! = 100): [Shareholding!]!
+  searchShareholder(input: SearchInvestmentType!): [Shareholding!]!
+  searchUsers(input: SearchInput!): [User!]!
+  shareholding(id: String!): [Shareholding!]!
+  starOfTheWeek(EndOfTheWeek: String!, startOfTheWeek: String!): [STOW!]!
+  verifyReferralId(referralCode: String!): User!
+}
+
+"""User role"""
+enum Role {
+  ADMIN
+  AGENT
+  USER
+}
+
+enum STATUS {
+  APPROVED
+  NOT_INITILAIZED
+  PENDING
+  REJECTED
+}
+
+type STOW {
+  agencyCode: String!
+  agencyOwnerName: String!
+  users: [User!]!
+}
+
+type SalesChannel {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type SalesPersonOutPut {
+  address: String
+  agencyCode: String
+  approvalStatus: String
+  email: String
+  extraInfo: String
+  mobileNumber: String
+  name: String
+}
+
+input SearchInput {
+  searchTerm: String!
+}
+
+input SearchInvestmentType {
+  name: String
+  searchMembership: Membership
+  searchProject: String
+}
+
+input SearchMembershipInput {
+  searchTerm: Membership
+}
+
+type ShareHolderCountDTO {
+  TotalAdvanceShareHolder: Int
+  TotalBasicShareHolder: Int
+  TotalHajipurShareHolder: Int
+  TotalShareholders: Int
+}
+
+type Shareholding {
+  """InvestMent TYPE"""
+  InvestmentType: String!
+
+  """alloted Share"""
+  allotedShare: String
+
+  """Status"""
+  status: String!
+  user: User
+}
+
+input SignupInput {
+  aadharCardNumber: String
+  email: String
+  membership: Membership
+  mobile: String
+  name: String
+  password: String!
+  pw_id: String!
+  referralAgencyCode: String
+}
+
+type Sponser {
+  SponserDetails: User
+  agencyCode: String
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  id: ID!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+}
+
+input SponserDetails {
+  ReferralCode: String!
+}
+
+enum TYPE {
+  CONFECTIONARY
+  DISTRIBUTOR
+  SUPERSTOCKIST
+}
+
+type Token {
+  """JWT access token"""
+  accessToken: JWT!
+
+  """JWT refresh token"""
+  refreshToken: JWT!
+}
+
+input UpdateDocumentStatusByAdmin {
+  approvalDate: String
+  approvalDocumentDate: DateTime
+  id: String!
+  status: STATUS!
+}
+
+input UpdateDocumentsInput {
+  id: String!
+  status: STATUS
+  title: String
+  url: String
+}
+
+input UpdateLicenseDetailsInput {
+  id: String!
+  licenseValidityInYear: Int!
+}
+
+input UpdateProjectEnrolledInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateSalesChannelInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input UpdateShareholdingInput {
+  InvestmentType: String
+  allotedShare: Int
+  id: String!
+  userId: String
+  userPWId: String
+}
+
+input UpdateUserInput {
+  Address: String
+  aadharCardNumber: String
+  alternate_mobile_number: String
+  date_of_birth: String
+  demat_account: String
+  email: String
+  father_or_husband_name: String
+  mobile_number: String
+  name: String
+  panCardNumber: String
+}
+
+input UpdateUserInputByAdmin {
+  alternate_mobile_number: String
+  amount: Int
+  date_of_birth: String
+  demat_account: String
+  documentId: String
+  email: String
+  father_or_husband_name: String
+  id: String!
+  kyc: String
+  mobile_number: String
+  name: String
+  nomineeName: String
+  nomineeRelationship: String
+  url: String
+  utrNo: String
+}
+
+input UpdateUserMembershipAdmin {
+  id: String!
+  membsership: Membership!
+}
+
+input UpdateUserRoleInput {
+  id: String!
+  role: Role!
+}
+
+input UpdateUserStatusAdmin {
+  id: String!
+  kyc: KYC!
+}
+
+type User {
+  Address: String
+  DSCDetails: [DscOutputDataField!]
+  ProjectEnrolledStatus: [ProjectEnrolledForAllUser!]
+  aadharCardNumber: String
+  alternate_mobile_number: String
+  createdAt: DateTime!
+  date_of_birth: String
+  demat_account: String
+  documents: [DocumentModal!]
+  email: String
+  father_or_husband_name: String
+  id: String!
+  isKycAgent: Boolean
+  kyc: KYC!
+  kycAgency: [KycAgencyModel!]
+  membership: Membership
+  mobile_number: String
+  name: String
+  nominee: NomineeModel
+  panCardNumber: String
+  private_key: String
+  pw_id: String
+  referralAgencyCode: String
+  rm_id: String
+  role: Role!
+  shareHoldingType: [Shareholding!]
+  updatedAt: DateTime!
+}
+
+type UserCountDTO {
+  totalAdvanceSubscribers: Int
+  totalAgraSubscribers: Int
+  totalBasicSubscribers: Int
+  totalHajipurSubscribers: Int
+  totalSubscribers: Int
+}
+
+type Wallet {
+  """Agency COde"""
+  agencyCode: String!
+
+  """Transaction Amount"""
+  amount: Int!
+  category: String
+
+  """Transaction Created At """
+  createdAt: DateTime!
+
+  """Final Balance"""
+  finalBalance: Int!
+
+  """Id of Transaction"""
+  id: Int!
+  metaData: [JSONObject!]
+
+  """ Type of Transaction DEPOSIT or WITHDRAWL"""
+  type: String!
+
+  """Transaction Updated At """
+  updatedAt: DateTime!
+}
+
+type WalletBalance {
+  """Agency Id"""
+  agencyCode: String!
+
+  """Final Balance"""
+  finalBalance: Int!
+}
+
+input WalletTransactionInput {
+  agencyCode: String!
+  amount: Int!
+  category: String
+  metaData: [JSONObject!]
+  type: String
+}
+
+input WithdraWalletMoney {
+  agencyCode: String!
+  amount: Int!
+}
+
+input projectDataInput {
+  """Project Payment Name Just Select Hajupir , Agra ETC"""
+  project_payment_name: PROJECT_PAYMENT!
+
+  """ This is User Id"""
+  userId: String!
+}
+
+type projectPaymentDTO {
+  ProjectAgraAmountReceived: Int
+  ProjectHajipurAmountReceived: Int
+  ProjectHyderabadAmountReceived: Int
+}
+
+type withdrawlRequest {
+  """Agency Id"""
+  agencyCode: String!
+
+  """Final Balance"""
+  amount: Int!
+
+  """Final Balance"""
+  createdAt: DateTime!
+}

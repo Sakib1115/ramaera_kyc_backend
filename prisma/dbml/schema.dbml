@@ -1,0 +1,311 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id String [pk]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  email String
+  password String [not null]
+  name String
+  father_or_husband_name String
+  mobile_number String
+  alternate_mobile_number String
+  decryptedPassword String
+  Address String
+  panCardNumber String
+  aadharCardNumber String [unique]
+  kyc KYC [not null, default: 'NOT_INITIALIZED']
+  role Role [not null]
+  membership Membership [not null, default: 'BASIC']
+  referralAgencyCode String
+  date_of_birth String
+  isKycAgent Boolean [not null, default: false]
+  demat_account String
+  private_key String [unique]
+  pw_id String [unique]
+  rm_id String [unique]
+  DSCDetails DSCDETAILS [not null]
+  documents Document [not null]
+  KycAgency KycAgency
+  nominee Nominee
+  kycApprovalDate DateTime
+  shareHoldingType ShareHoldingType [not null]
+  ProjectEnrolledStatus ProjectEnrolledStatus [not null]
+  ReferralKYCTransaction ReferralKYCTransaction [not null]
+  ReferralProjectransaction ReferralProjectTransaction [not null]
+}
+
+Table KycAgency {
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  id String [pk]
+  agencyCode String [unique, not null]
+  userId String [unique, not null]
+  licenseValidityInYear Int
+  AgencyIncome AgencyIncome [not null]
+  user User [not null]
+  ReferralKYCTransaction ReferralKYCTransaction [not null]
+  ReferralProjectTransaction ReferralProjectTransaction [not null]
+  SalesPerson SalesPerson [not null]
+  ReferralSalesTransaction ReferralSalesTransaction [not null]
+}
+
+Table Document {
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  id String [pk]
+  title String [not null]
+  url String [not null]
+  amount Int
+  referralProjectMoneytoAgency ReferralProjectTransaction
+  approvalDocumentDate DateTime
+  approvalDate String
+  userId String
+  status STATUS [not null, default: 'PENDING']
+  utrNo String
+  user User
+}
+
+Table DSCDETAILS {
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [default: `now()`, not null]
+  id String [pk]
+  DscCreatedDate String
+  DscExpiryDate String
+  DSCStatus DSCSTATUS [not null, default: 'NOT_RECEIVED']
+  userId String
+  user User
+}
+
+Table Nominee {
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  userId String [unique, not null]
+  name String
+  relationship String [not null]
+  id String [pk]
+  user User [not null]
+}
+
+Table KycHandler {
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  userId String [not null]
+  handlerId String [not null]
+  identifier String [not null]
+  updatedKycStatus String [not null]
+  id String [pk]
+}
+
+Table ShareHoldingType {
+  id String [pk]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime [default: `now()`]
+  InvestmentType String [not null]
+  allotedShare Int
+  status String
+  userPWId String
+  userId String [not null]
+  user User [not null]
+}
+
+Table ProjectEnrolledStatus {
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime [default: `now()`]
+  id String [pk]
+  projectName String
+  projectStatus PROJECTSTATUS
+  userId String [not null]
+  user User [not null]
+  totalInvestedAmountinProject String
+}
+
+Table AgencyIncome {
+  id String [pk]
+  AgencyId String [not null]
+  userId String [not null]
+  month String [not null]
+  totalEarning Int [not null]
+  KycAgency KycAgency [not null]
+}
+
+Table WalletTransactionAndBalance {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime [default: `now()`]
+  category REFERRAL_CATEGORY [not null]
+  amount Int [not null]
+  agencyCode String
+  metaData Json
+  type String
+  finalBalance Int
+}
+
+Table ReferralKYCTransaction {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime [default: `now()`]
+  user User [not null]
+  userId String [unique, not null]
+  pwID String [unique, not null]
+  agencyCode String [not null]
+  transferDate DateTime
+  KycAgency KycAgency
+  kycAgencyId String
+}
+
+Table ReferralProjectTransaction {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime [default: `now()`]
+  user User [not null]
+  userId String [not null]
+  documentId String [unique, not null]
+  document Document [not null]
+  pwID String [unique, not null]
+  agencyCode String [not null]
+  transferDate DateTime
+  KycAgency KycAgency
+  kycAgencyId String
+}
+
+Table WithdrawlRequest {
+  id String [pk]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  amount Int [not null]
+  agencyCode String [not null]
+  status WITHDRAW_STATUS [not null, default: 'PENDING']
+}
+
+Table ReferralSalesTransaction {
+  id Int [pk, increment]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime [default: `now()`]
+  salesPerson SalesPerson [not null]
+  salesPersonId String [unique, not null]
+  agencyCode String [not null]
+  transferDate DateTime
+  KycAgency KycAgency
+  kycAgencyId String
+}
+
+Table SalesPerson {
+  id String [pk]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  type TYPE [not null]
+  KycAgency KycAgency
+  kycAgencycode String
+  approvalStatus STATUS [not null, default: 'NOT_INITILAIZED']
+  approvalDate DateTime
+  referralSalesPersonMoneyToAgency ReferralSalesTransaction
+  name String
+  email String [not null]
+  mobileNumber String [not null]
+  address Json
+  extraInfo Json
+  SalesPersonDocument SalesPersonDocument [not null]
+}
+
+Table SalesPersonDocument {
+  id String [pk]
+  createdAt DateTime [default: `now()`]
+  updatedAt DateTime
+  title String
+  status STATUS [not null, default: 'NOT_INITILAIZED']
+  salesPerson SalesPerson [not null]
+  url String
+  salesPersonId String [not null]
+}
+
+Enum TYPE {
+  CONFECTIONARY
+  DISTRIBUTOR
+  SUPERSTOCKIST
+}
+
+Enum WITHDRAW_STATUS {
+  PENDING
+  TRANSFERRED
+}
+
+Enum REFERRAL_CATEGORY {
+  DEPOSIT_KYC
+  DEPOSIT_PROJECT
+  DEPOSIT_SELF
+  DEPOSIT_SALES
+  DEPOSIT_AGENCY
+  WITHDRAWL
+}
+
+Enum PROJECTSTATUS {
+  ENROLLED
+  NOT_ENROLLED
+}
+
+Enum Role {
+  ADMIN
+  USER
+  AGENT
+}
+
+Enum Membership {
+  BASIC
+  ADVANCE
+}
+
+Enum DSCSTATUS {
+  NOT_RECEIVED
+  RECEIVED
+}
+
+Enum KYC {
+  NOT_INITIALIZED
+  SUBMITTED
+  ONGOING
+  REJECTED
+  APPROVED
+  AGENT_APPROVED
+}
+
+Enum STATUS {
+  NOT_INITILAIZED
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+Ref: KycAgency.userId - User.id
+
+Ref: Document.userId > User.id
+
+Ref: DSCDETAILS.userId > User.id
+
+Ref: Nominee.userId - User.id
+
+Ref: ShareHoldingType.userId > User.id
+
+Ref: ProjectEnrolledStatus.userId > User.id
+
+Ref: AgencyIncome.AgencyId > KycAgency.id
+
+Ref: ReferralKYCTransaction.userId > User.id
+
+Ref: ReferralKYCTransaction.kycAgencyId > KycAgency.id
+
+Ref: ReferralProjectTransaction.userId > User.id
+
+Ref: ReferralProjectTransaction.documentId - Document.id
+
+Ref: ReferralProjectTransaction.kycAgencyId > KycAgency.id
+
+Ref: ReferralSalesTransaction.salesPersonId - SalesPerson.id
+
+Ref: ReferralSalesTransaction.kycAgencyId > KycAgency.id
+
+Ref: SalesPerson.kycAgencycode > KycAgency.agencyCode
+
+Ref: SalesPersonDocument.salesPersonId > SalesPerson.id
